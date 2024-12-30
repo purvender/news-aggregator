@@ -92,4 +92,4 @@ jobs:
         run: |
           aws apprunner update-service \
             --service-arn arn:aws:apprunner:us-east-1:713881819441:service/happynews/31a8ce296eae4a8d9a4ef09028d65c38 \
-            --source-configuration '{"ImageRepository":{"ImageIdentifier":"'"${{ steps.login-ecr.outputs.registry }}/happynews:${{ github.sha }}"'","ImageRepositoryType":"ECR","ImageConfiguration":{"Port":"8080"}}}'
+            --source-configuration '{"ImageRepository":{"ImageIdentifier":"'"${{ steps.login-ecr.outputs.registry }}/happynews:${{ github.sha }}"'","ImageRepositoryType":"ECR","ImageConfiguration":{"Port":"8080"}},"AuthenticationConfiguration":{"AccessRoleArn":"arn:aws:iam::713881819441:role/service-role/AppRunnerECRAccessRole"}}'
