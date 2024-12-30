@@ -79,13 +79,20 @@ jobs:
           echo "Pushing Docker image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      # Step 6: Update App Runner Service
-      - name: Update App Runner Service
-        uses: aws-actions/aws-app-runner-deploy@v1
+      # Step 6: Configure AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          service-arn: arn:aws:apprunner:us-east-1:713881819441:service/happynews/31a8ce296eae4a8d9a4ef09028d65c38
-          image-url: ${{ steps.login-ecr.outputs.registry }}/happynews:${{ github.sha }}
-          auto-deploy: true
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # Step 7: Deploy to App Runner using AWS CLI
+      - name: Deploy to App Runner
+        run: |
+          aws apprunner update-service \
+            --service-arn arn:aws:apprunner:us-east-1:713881819441:service/happynews/31a8ce296eae4a8d9a4ef09028d65c38 \
+            --source-configuration ImageRepository={
+                ImageIdentifier=${{ steps.login-ecr.outputs.registry }}/happynews:${{ github.sha }},
+                ImageConfiguration={Port=8080}
+            }
