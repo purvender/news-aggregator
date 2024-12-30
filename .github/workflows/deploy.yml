@@ -72,7 +72,7 @@ jobs:
 
       # Step 6: Deploy to App Runner using Amazon App Runner Deploy GitHub Action
       - name: Deploy to App Runner
-        uses: awslabs/amazon-app-runner-deploy@v1
+        uses: awslabs/amazon-app-runner-deploy@main
         with:
           service-arn: arn:aws:apprunner:us-east-1:713881819441:service/happynews/31a8ce296eae4a8d9a4ef09028d65c38
           image-url: ${{ steps.login-ecr.outputs.registry }}/happynews:${{ github.sha }}
