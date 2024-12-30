@@ -19,9 +19,9 @@ A backend service for aggregating news from multiple APIs into a single platform
 - **JUnit** - For unit and integration tests.
 - **Maven** - For project management and dependency handling.
 
-License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Contributing
+## Contributing
 We welcome contributions! Please fork the repository, create a new branch, and submit a pull request with your changes.
 
